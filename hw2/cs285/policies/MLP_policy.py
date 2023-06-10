@@ -1,12 +1,11 @@
 import abc
 import itertools
-from torch import nn
-from torch.nn import functional as F
-from torch import optim
+from typing import Any, cast
 
 import numpy as np
 import torch
-from torch import distributions
+from torch import distributions, nn, optim
+from torch.nn import functional as F
 
 from cs285.infrastructure import pytorch_util as ptu
 from cs285.policies.base_policy import BasePolicy
@@ -86,7 +85,18 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
 
     # query the policy with observation(s) to get selected action(s)
     def get_action(self, obs: np.ndarray) -> np.ndarray:
-        # TODO: get this from HW1
+        if len(obs) > 1:
+            observation = obs
+        else:
+            observation = 0
+
+        observation_tensor = torch.tensor(observation, dtype=torch.float).to(ptu.device)
+        action_distribution = self.forward(observation_tensor)
+        return cast(
+            np.ndarray,
+            action_distribution.sample().cpu().detach().numpy(),
+        )
+    
 
     # update/train this policy
     def update(self, observations, actions, **kwargs):

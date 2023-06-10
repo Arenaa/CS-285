@@ -39,7 +39,7 @@ class PGAgent(BaseAgent):
             and the calculated qvals/advantages that come from the seen rewards.
         """
 
-        # TODO: update the PG actor/policy using the given batch of data 
+        # TODO: update the PG actor/policy using the given batch of data
         # using helper functions to compute qvals and advantages, and
         # return the train_log obtained from updating the policy
 
@@ -57,15 +57,15 @@ class PGAgent(BaseAgent):
 
         # Note: rewards_list is a list of lists of rewards with the inner list
         # being the list of rewards for a single trajectory.
-        
+
         # HINT: use the helper functions self._discounted_return and
         # self._discounted_cumsum (you will need to implement these).
 
         # Case 1: trajectory-based PG
         # Estimate Q^{pi}(s_t, a_t) by the total discounted reward summed over entire trajectory
 
-        # Note: q_values should first be a 2D list where the first dimension corresponds to 
-        # trajectories and the second corresponds to timesteps, 
+        # Note: q_values should first be a 2D list where the first dimension corresponds to
+        # trajectories and the second corresponds to timesteps,
         # then flattened to a 1D numpy array.
 
         if not self.reward_to_go:
