@@ -42,8 +42,10 @@ class RL_Trainer(object):
         # Make the gym environment
         if self.params['video_log_freq'] == -1:
             self.params['env_kwargs']['render_mode'] = None
-        self.env = gym.make(self.params['env_name'], **self.params['env_kwargs'])
-        self.env.reset(seed=seed)
+        
+              
+        self.env = gym.make(self.params['env_name'])
+       # self.env.reset(seed=seed)
 
         # Maximum length for episodes
         self.params['ep_len'] = self.params['ep_len'] or self.env.spec.max_episode_steps
@@ -60,11 +62,12 @@ class RL_Trainer(object):
         self.params['agent_params']['ob_dim'] = ob_dim
 
         # simulation timestep, will be used for video saving
-        if 'model' in dir(self.env):
-            self.fps = 1/self.env.model.opt.timestep
-        else:
-            self.fps = self.env.env.metadata['render_fps']
+        #if 'model' in dir(self.env):
+        #   self.fps = 1/self.env.model.opt.timestep
+        #else:
+        #    self.fps = self.env.env.metadata['render_fps']
 
+        self.fps = 1/self.env.model.opt.timestep
         #############
         ## AGENT
         #############
